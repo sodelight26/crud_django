@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">แก้ไขรายการไซส์</h1>
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="mb-3">
+                <label for="size_name" name ="size_name" class="form-label">ชื่อไซส์</label>
+                <input type="text" name ="size_name" class="form-control" value="{{ STK_SIZE.SIZE_NAME }}" >
+            </div>
+            <input class="btn btn-success" type="submit" value="อัพเดตข้อมูล">
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>หน้าแรก</title>
+{% endblock %}
+
+{% block content %}
+<h3 class="text-center">สต๊อกสินค้า</h3>
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success" role="alert">
+      <strong>{{ message | safe }}</strong>
+    </div>
+    {% endfor %}
+{% endif %}
+<table id="myTable" class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">รหัสสินค้า</th>
+      <th scope="col">ชื่อสินค้า</th>
+      <th scope="col">ประเภท</th>
+      <th scope="col">ไซส์</th>
+      <th scope="col">จำนวนคงเหลือ</th>
+      <th scope="col">ราคาขาย</th>
+      <th scope="col">สถานะคงเหลือ</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    {% for STK_PRD in all_STK_PRD %}
+    <tr>
+      <th scope="row">{{ STK_PRD.id }}</th>
+      <td>{{ STK_PRD.PRD_NAME }}</td>
+      <td>{{ STK_PRD.TYPE_ID.TYPE_NAME }}</td>
+      <td>{{ STK_PRD.SIZE_ID.SIZE_NAME }}</td>
+      <td>{{ STK_PRD.PRD_NUMB }}</td>
+      <td>{{ STK_PRD.PRD_PRICE }}</td>
+      <td><span class="badge text-bg-success">เพียงพอ</span></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('#myTable').DataTable();
+});
+</script>
+
+{% endblock %}

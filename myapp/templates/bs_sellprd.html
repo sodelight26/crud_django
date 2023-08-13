@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center">ขายสินค้า</h1>
+<form method="post" action="{% url 'bs_sellprd' %}">
+    {% csrf_token %}
+    <div class="row g-3 mt-3">
+        <div class="col-sm-2">
+            <label for="type_id" class="form-label">ชนิดใบเสร็จ</label>
+            <select id="type_id" name="type_id" class="form-select">
+                <option selected>เลือกชนิด...</option>
+                {% for type in types %}
+                <option value="{{ type.id }}">{{ type.ORD_TYPESELL }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <label for="prd_name" class="form-label">ชื่อลูกค้า</label>
+            <input type="text" id="prd_name" name="prd_name" class="form-control" placeholder="กรอกชื่อสินค้า"
+                aria-label="กรอกชื่อสินค้า">
+        </div>
+        <div class="col-sm-2">
+            <label for="prd_name" class="form-label">วันที่</label>
+            <input type="date" id="prd_name" name="prd_name" class="form-control" placeholder="กรอกชื่อสินค้า"
+                aria-label="กรอกชื่อสินค้า">
+        </div>
+
+        <div class="col-sm-5">
+            <label for="prd_price" class="form-label">ที่อยู่ลูกค้า</label>
+            <div class="form-floating">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                <label for="floatingTextarea">กรอกที่อยู่</label>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        เพิ่มรายการสินค้าในบิล
+    </button>
+
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">เพิ่มรายการสินค้าในบิล</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="card-body">
+                    <div style="overflow-x: auto;">
+                        <table class="table table-hover ">
+                            <thead>
+                                <tr class="table-primary">
+                                    <th scope="col">รหัสสินค้า</th>
+                                    <th scope="col">ชื่อสินค้า</th>
+                                    <th scope="col">ประเภท</th>
+                                    <th scope="col">ไซส์</th>
+                                    <th scope="col">จำนวน</th>
+                                    <th scope="col">ราคาขาย/หน่อย</th>
+                                    <th scope="col">ราคารวม</th>
+                                    <th scope="col">เลือก</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in products %}
+                                <tr>
+                                    <th scope="row">{{ product.id }}</th>
+                                    <td>{{ product.PRD_NAME }}</td>
+                                    <td>{{ product.TYPE_ID.TYPE_NAME }}</td>
+                                    <td>{{ product.SIZE_ID.SIZE_NAME }}</td>
+                                    <td>
+                                        <div class="input-group mb-1" style="width: 150px;">
+                                            <input type="number" class="form-control" placeholder="จำนวน" name="prd_num"
+                                                aria-label="Recipient's username" aria-describedby="basic-addon2" value="{{ product.PRD_NUMB }}">
+                                            <span class="input-group-text" id="basic-addon2">ชิ้น</span>
+                                        </div>
+                                    </td>
+                                    
+                                    <td>
+                                        <div class="input-group col-md-1" style="width: 150px;">
+                                            <span class="input-group-text">฿</span>
+                                            <input type="text" class="form-control" placeholder="ราคาขาย" name="prd_price"
+                                                aria-label="Amount (to the nearest dollar)" value="{{ product.PRD_PRICE }}">
+                                            <span class="input-group-text">บาท</span>
+                                        </div>
+                                    </td>
+                                    
+                                    <td>
+                                        <button type="button" class="btn btn-success">
+                                            เลือก
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <hr>
+
+    <h5>รายการสินค้าในบิล</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">รหัสสินค้า</th>
+                <th scope="col">ชื่อสินค้า</th>
+                <th scope="col">ประเภท</th>
+                <th scope="col">ไซส์</th>
+                <th scope="col">จำนวน</th>
+                <th scope="col">ราคาขาย/หน่วย</th>
+                <th scope="col">ราคารวม</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <th scope="row">{{ product.id }}</th>
+                <td>{{ product.PRD_NAME }}</td>
+                <td>{{ product.TYPE_ID.TYPE_NAME }}</td>
+                <td>{{ product.SIZE_ID.SIZE_NAME }}</td>
+                <td>{{ product.PRD_NUMB }}</td>
+                <td>{{ product.PRD_PRICE }}</td>
+                <td>{{ product.PRD_NUMB|floatformat:2 }} * {{ product.PRD_PRICE|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+    <input class="btn btn-success col-sm-1 mt-4" type="submit" value="บันทึกข้อมูล">
+</form>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center">แก้ไขรายการสินค้า</h1>
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="row g-3 mt-3">
+        <div class="col-sm-4">
+            <label for="prd_name" class="form-label">ชื่อสินค้า</label>
+            <input type="text" id="prd_name" name="prd_name" class="form-control" value="{{ product.PRD_NAME }}">
+        </div>
+        <div class="col-sm-2">
+            <label for="type_id" class="form-label">ประเภท</label>
+            <select id="type_id" name="type_id" class="form-select">
+                <option selected disabled>เลือกประเภท...</option>
+                {% for type in types %}
+                    <option value="{{ type.id }}" {% if type.id == product.TYPE_ID.id %}selected{% endif %}>{{ type.TYPE_NAME }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <label for="size_id" class="form-label">ไซส์</label>
+            <select id="size_id" name="size_id" class="form-select">
+                <option selected disabled>เลือกไซส์...</option>
+                {% for size in sizes %}
+                    <option value="{{ size.id }}" {% if size.id == product.SIZE_ID.id %}selected{% endif %}>{{ size.SIZE_NAME }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <label for="prd_price" class="form-label">ราคาขาย</label>
+            <div class="input-group">
+                <span class="input-group-text">฿</span>
+                <input type="text" id="prd_price" name="prd_price" class="form-control" aria-label="Amount" value="{{ product.PRD_PRICE }}">
+                <span class="input-group-text">บาท</span>
+            </div>
+        </div>
+        
+    </div>
+    <input class="btn btn-success col-sm-1 mt-4" type="submit" value="อัพเดตข้อมูล">
+</form>
+{% endblock %}

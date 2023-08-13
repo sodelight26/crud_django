@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>รายการไซส์</title>
+{% endblock %}
+
+{% block content %}
+
+<h3 class="text-center">รายการไซส์</h3>
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success" role="alert">
+  <strong>{{ message }}</strong>
+</div>
+{% endfor %}
+{% endif %}
+<div class="text-end mb-2">
+  <a href="/fr_size" type="button" class="btn btn-success">เพิ่มรายการ</a>
+</div>
+<table id="myTable" class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">รหัสไซส์</th>
+      <th scope="col">ชื่อไซส์</th>
+      <th scope="col">แก้ไข</th>
+      <th scope="col">ลบ</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    {% for STK_SIZE in all_STK_SIZE %}
+    <tr>
+      <th scope="row">{{ STK_SIZE.id }}</th>
+      <td>{{ STK_SIZE.SIZE_NAME }}</td>
+      <td><a href="{% url 'ed_size' STK_SIZE.id %}" class="btn btn-warning">แก้ไข</a></td>
+      <td>
+        <form action="{% url 'de_size' STK_SIZE.id %}" method="post"
+          onsubmit="return confirm('คุณต้องการลบข้อมูลรายการประเภท {{ STK_SIZE.SIZE_NAME }} ?')">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">ลบ</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+
+
+  </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('#myTable').DataTable();
+  });
+</script>
+
+{% endblock %}
